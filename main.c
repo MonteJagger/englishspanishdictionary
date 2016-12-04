@@ -66,27 +66,37 @@ void reset_string(char* s, int max_len)      {
     s[max_len-1] = '0';
 }
 int main() {
-
-    printf("Enter two words separated by a space (e.g.: cat someone).\n Stop with: -1 -1\n");
-
+    FILE *fp;
+    
+    printf("Two words\n");
+    fp = fopen("Spanish.txt", "r");
+    
     struct node* root = NULL;
-    while (1) {
+    int c;
+    
+    
+    while ((c = getc(fp)) != EOF) {
         char *first = (char*)malloc(1000*sizeof(char));
         char *second = (char*)malloc(1000*sizeof(char));
-  
-        scanf("%s %[^\n]", first, second);
+        fscanf(fp, "%s %[^\n]", first, second);
         
         if (first[0] == '#')
             continue;
-        else if (first[0] == '-')
-            break;
+        
         printf("%10s \t %40s\n", first, second);
         root = Insert(root, first, second);
 
     }
+    
     char word[1000];
-    printf("Enter word to be searched\n");
-    scanf("%s", word);
-    if (Search(root, word) == 1) printf("Found\n");
-    else printf("Not found\n");
+    
+    while (word[0] != 'q'){
+        printf("Enter word to be searched\n");
+        scanf("%s", word);
+        
+        if (word[0] == 'q') continue;
+        
+        if (Search(root, word) == 1) printf("Found\n");
+        else printf("Not found\n");
+    }
 }

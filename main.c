@@ -72,19 +72,19 @@ int main() {
     fp = fopen("Spanish.txt", "r");
     
     struct node* root = NULL;
-    char *first = (char*)malloc(1000*sizeof(char));
-    char *second = (char*)malloc(1000*sizeof(char));
-    while (fscanf(fp, "%s %[^\n]", first, second) == 2) {
-        char *first2 = (char*)malloc(1000*sizeof(char));
-        char *second2 = (char*)malloc(1000*sizeof(char));
-        first2 = first;
-        second2 = second;
+    int c;
+    
+    
+    while ((c = getc(fp)) != EOF) {
+        char *first = (char*)malloc(1000*sizeof(char));
+        char *second = (char*)malloc(1000*sizeof(char));
+        fscanf(fp, "%s %[^\n]", first, second);
         
-        if (first2[0] == '#')
+        if (first[0] == '#')
             continue;
         
-        printf("%10s \t %40s\n", first2, second2);
-        root = Insert(root, first2, second2);
+        printf("%10s \t %40s\n", first, second);
+        root = Insert(root, first, second);
 
     }
     
@@ -93,6 +93,9 @@ int main() {
     while (word[0] != 'q'){
         printf("Enter word to be searched\n");
         scanf("%s", word);
+        
+        if (word[0] == 'q') continue;
+        
         if (Search(root, word) == 1) printf("Found\n");
         else printf("Not found\n");
     }
